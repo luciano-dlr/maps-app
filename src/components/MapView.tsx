@@ -3,12 +3,12 @@ import { PlacesContext } from "../context"
 import { LoadingView } from "./LoadingView"
 import { Box } from "@mui/material"
 import maplibregl from "maplibre-gl"
-import "maplibre-gl/dist/maplibre-gl.css";
+
 
 export const MapView = () => {
     const { isLoading, userLocation } = useContext(PlacesContext)
     const mapDiv = useRef<HTMLDivElement>(null)
-    // const mapRef = useRef<maplibregl.Map | null>(null)
+
 
 
     useLayoutEffect(() => {
@@ -18,7 +18,9 @@ export const MapView = () => {
                 container: mapDiv.current,
                 style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
                 center: userLocation,
-                zoom: 20
+                zoom: 17,
+                pitch: 45,
+
             })
 
         }
