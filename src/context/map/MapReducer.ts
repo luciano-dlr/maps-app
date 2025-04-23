@@ -12,10 +12,9 @@ export const MapReducer = (state: MapState, action: MapAction): MapState => {
 
             return {
                 ...state,
-                mapReady: true,
-
+                isMapReady: true,
+                map: action.payload
             }
-
 
         default:
             return state

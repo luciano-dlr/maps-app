@@ -3,12 +3,13 @@ import { PlacesContext } from "../context"
 import { LoadingView } from "./LoadingView"
 import { Box } from "@mui/material"
 import maplibregl from "maplibre-gl"
+import { MapContext } from "../context/map/MapContext"
 
 
 export const MapView = () => {
     const { isLoading, userLocation } = useContext(PlacesContext)
+    const { setMap } = useContext(MapContext)
     const mapDiv = useRef<HTMLDivElement>(null)
-
 
 
     useLayoutEffect(() => {
@@ -16,13 +17,13 @@ export const MapView = () => {
 
             const mapRef = new maplibregl.Map({
                 container: mapDiv.current,
-                style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
+                style: 'https://tiles.stadiamaps.com/styles/alidade_smooth_dark.json',
                 center: userLocation,
                 zoom: 17,
                 pitch: 45,
 
             })
-
+            setMap(mapRef)
         }
     }, [isLoading])
 
