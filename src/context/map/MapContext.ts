@@ -3,7 +3,7 @@ import maplibregl from "maplibre-gl"
 
 
 interface MapContextProps {
-    mapReady?: boolean
+    isMapReady?: boolean
     map?: maplibregl.Map,
     setMap: (map: maplibregl.Map) => void,
 }

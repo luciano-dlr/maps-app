@@ -9,7 +9,7 @@ export interface MapState {
 }
 
 const INITIAL_STATE = {
-    mapReady: false,
+    isMapReady: false,
     map: undefined
 }
 
@@ -26,8 +26,8 @@ export const MapProvider = ({ children }: Props) => {
         const myLocationPopup = new Popup()
             .setHTML(`
                 <div>
-                <h2>Aqui Estoy</h2>
-                <p>En algun Lugar del Mundo</p>
+                    <h2>Aqui Estoy</h2>
+                    <p>En algun Lugar del Mundo</p>
                 </div>
                 `)
 
