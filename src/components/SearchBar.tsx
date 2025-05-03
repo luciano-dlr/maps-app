@@ -1,6 +1,24 @@
 import TextField from "@mui/material/TextField";
+import { ChangeEvent, useRef } from "react";
 
 export const SearchBar = () => {
+
+    const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+    const queryChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current)
+        }
+
+        debounceRef.current = setTimeout(() => {
+            console.log('soy debounce', event.target.value)
+        }, 350);
+    }
+
+
+
+
+
     return (
         <div
             style={{
@@ -15,6 +33,7 @@ export const SearchBar = () => {
             }}
         >
             <TextField
+                onChange={queryChange}
                 type="text"
                 variant="filled"
                 label="Buscar ubicación"
