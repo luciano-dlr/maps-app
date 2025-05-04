@@ -15,7 +15,7 @@ export interface PlacesState {
 const INITIAL_STATE: PlacesState = {
     isLoading: true,
     userLocation: undefined,
-    isLoadingPlaces: true,
+    isLoadingPlaces: false,
     places: [],
 }
 
@@ -34,12 +34,13 @@ export const PlacesProvider = ({ children }: Props) => {
 
 
     const searchPlacesByQuery = async (query: string): Promise<Feature[]> => {
-        if (query.length === 0) return []
+        if (query.length === 0) {
+            dispatch({ type: 'clearPlaces' });
+            return [];
+        }
         if (!state.userLocation) throw new Error('No ubicacion del usuario')
 
         dispatch({ type: 'setLoadingPlaces' })
-
-
 
         const response = await searchApi.get<SearchResponse>(`/search?q=${query}`, {
             params: {
