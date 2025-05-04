@@ -1,7 +1,11 @@
 import TextField from "@mui/material/TextField";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useRef, useContext } from 'react';
+import { PlacesContext } from "../context";
+import { Box } from "@mui/material";
 
 export const SearchBar = () => {
+
+    const { searchPlacesByQuery } = useContext(PlacesContext)
 
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -12,12 +16,10 @@ export const SearchBar = () => {
 
         debounceRef.current = setTimeout(() => {
             console.log('soy debounce', event.target.value)
+            searchPlacesByQuery(event.target.value)
         }, 350);
+
     }
-
-
-
-
 
     return (
         <div
@@ -65,6 +67,9 @@ export const SearchBar = () => {
                     }
                 }}
             />
+            <Box>
+
+            </Box>
         </div>
     )
 }

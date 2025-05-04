@@ -2,16 +2,21 @@ import { JSX, useEffect, useReducer } from "react"
 import { PlacesContext } from "./PlacesContext"
 import { placesReducer } from "./PlacesReducer";
 import { getUserLocation } from "../../helpers/getUserLocation";
+import searchApi from "../../apis/SearchApi";
+import { Feature, SearchResponse } from '../../interfaces/places';
 
 export interface PlacesState {
     isLoading: boolean,
     userLocation?: [number, number],
-
+    isLoadingPlaces: boolean,
+    places: Feature[],
 }
 
 const INITIAL_STATE: PlacesState = {
     isLoading: true,
-    userLocation: undefined
+    userLocation: undefined,
+    isLoadingPlaces: true,
+    places: [],
 }
 
 interface Props {
@@ -27,9 +32,29 @@ export const PlacesProvider = ({ children }: Props) => {
             .then(latitudLongitud => dispatch({ type: 'setUserLocation', payload: latitudLongitud }))
     }, [])
 
+
+    const searchPlacesByQuery = async (query: string): Promise<Feature[]> => {
+        if (query.length === 0) return []
+        if (!state.userLocation) throw new Error('No ubicacion del usuario')
+
+        dispatch({ type: 'setLoadingPlaces' })
+
+
+
+        const response = await searchApi.get<SearchResponse>(`/search?q=${query}`, {
+            params: {
+                proximity: state.userLocation.join(',')
+            }
+        })
+        dispatch({ type: 'setPlaces', payload: response.data.features })
+
+        return response.data.features
+    }
+
     return (
         <PlacesContext.Provider value={{
             ...state,
+            searchPlacesByQuery
         }}>
             {children}
 
